@@ -43,7 +43,7 @@ module MiniRiscV_tb;
             // --- Program: Load/Store/MOV ---
             uut.m_instr_mem[3] = '{4'b1000, 4'd6, 4'd0, 4'd1}; // LOAD  R6 = dmem[0+1] = 200
             uut.m_instr_mem[4] = '{4'b1001, 4'd6, 4'd0, 4'd2}; // STORE dmem[0+2] = R6 = 200
-            uut.m_instr_mem[5] = '{4'b1010, 4'd7, 4'd6, 4'd0}; // MOV   R4 = R3
+            uut.m_instr_mem[5] = '{4'b0000, 4'd7, 4'd6, 4'd0}; // MOV   R4 = R3
             
             // Fill rest with NOPs
             for (int i = 6; i < MEM_DEPTH; i++)

@@ -37,7 +37,7 @@ module tb_state_machine;
 
         // Test 02
         @(posedge clk);
-        x_in = -4;
+        x_in = -8;
         start = 1;
         @(posedge clk);
         start = 0;
