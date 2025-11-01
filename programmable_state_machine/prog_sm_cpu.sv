@@ -39,16 +39,17 @@ module MiniRiscV (
 
     // ALU Operations
     always_comb begin
+        addr = regfile[instr.rs1] + instr.rs2;
         alu_in1 = regfile[instr.rs1];
         alu_in2 = regfile[instr.rs2];
 
         case(instr.opcode)
-            4'b0000: alu_out = alu_in1 +  alu_in2;       // ADD
-            4'b0001: alu_out = alu_in1 -  alu_in2;       // SUB
-            4'b0010: alu_out = alu_in1 << alu_in2;       // SLL
-            4'b0011: alu_out = alu_in1 >> alu_in2;       // SRL
-            4'b0100: alu_out = alu_in1 *  alu_in2;       // MUL
-            4'b0101: alu_out = (alu_in2 != 0) ? alu_in1 / alu_in2 : 16'hFFFF; // DIV
+            4'b0000: alu_out = alu_in1 +  alu_in2;      // ADD
+            4'b0001: alu_out = alu_in1 -  alu_in2;      // SUB
+            4'b0010: alu_out = alu_in1 << alu_in2;      // SLL
+            4'b0011: alu_out = alu_in1 >> alu_in2;      // SRL
+            4'b0100: alu_out = alu_in1 *  alu_in2;      // MUL
+            4'b0101: alu_out = alu_in1 /  alu_in2 ;     // DIV
             4'b0110: alu_out = alu_in1 + instr.rs2;     // ADDI
             4'b0111: alu_out = alu_in1 - instr.rs2;     // SUBI
             4'b1010: alu_out = alu_in1;                 // MOV
@@ -63,12 +64,10 @@ module MiniRiscV (
             instr <= '{default:0};
         end else begin
             instr <= m_instr_mem[PC];
-            addr = regfile[instr.rs1] + instr.rs2;
 
             case(instr.opcode)
                 4'b1000: regfile[instr.rd] <= dmem[addr];    // LOAD
                 4'b1001: dmem[addr] <= regfile[instr.rd];   // STORE
-                4'b1010: regfile[instr.rd] <= alu_out;       // MOV
                 default: regfile[instr.rd] <= alu_out;       // ALU ops
             endcase
             PC <= PC + 1;

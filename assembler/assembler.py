@@ -6,7 +6,7 @@ OPCODES = {
     'load': 8, 'store': 9, 'mov': 10
 }
 
-def assemble(line):
+def assembler(line):
     """Convert assembly line to 16-bit machine code"""
     if not line or line.startswith('#'): 
         return None
@@ -39,6 +39,6 @@ program = [
 
 print("Machine Code:")
 for line in program:
-    code = assemble(line)
+    code = assembler(line)
     if code:
         print(f"16'b{code & 0xffff:016b}  // {line}")
